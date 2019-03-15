@@ -3203,6 +3203,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     {
                         errorMessage = "Object already open";
                         actionFinished(false);
+                        return;
                     }
 
                     else
@@ -3210,10 +3211,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         //pass in percentage open if desired
                         if (action.moveMagnitude > 0.0f)
                         {
-                            codd.SetOpenPercent(action.moveMagnitude);
+                            //if this fails, invalid percentage given
+                            if(!codd.SetOpenPercent(action.moveMagnitude))
+                            {
+                                errorMessage = "Please give an open percentage between 0.0f and 1.0f";
+                                actionFinished(false);
+                                return;
+                            }
                         }
 
-                        // codd.Interact();
+                        //XXX: So if we want to generate metadata at specific parts of the animation, this
+                        //coroutine will need some tweaking. Basically we need to send emit frames after some number of yield
+                        //return null calls in the loop that's tracking iTween instances? We will figure that out later but
+                        //for future notice I'm leaving this note.
                         StartCoroutine(InteractAndWait(codd));
                     }
 				}
