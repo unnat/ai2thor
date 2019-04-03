@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityStandardAssets.Characters.FirstPerson;
+using System.Linq;
 
 //this script manages the spawning/placing of sim objects in the scene
 public class InstantiatePrefabTest : MonoBehaviour
@@ -117,6 +118,7 @@ public class InstantiatePrefabTest : MonoBehaviour
     //spawningInHand - adjusts layermask depending on if the object is going to spawn directly in the agent's hand vs spawning in the environment
     //ignoreChecks - bool to ignore checks and spawn anyway
     //--
+
     public SimObjPhysics SpawnObject(string objectType, bool randomize, int variation, Vector3 position, Vector3 rotation, bool spawningInHand, bool ignoreChecks)
     {
         GameObject topObject = GameObject.Find("Objects");
@@ -149,6 +151,16 @@ public class InstantiatePrefabTest : MonoBehaviour
 		if (ignoreChecks || CheckSpawnArea(candidates[variation].GetComponent<SimObjPhysics>(), position, quat, spawningInHand))
         {
             GameObject prefab = Instantiate(candidates[variation], position, quat) as GameObject;
+            if (!ignoreChecks) {
+                if (UtilityFunctions.isObjectColliding(
+                    prefab, 
+                    new List<GameObject>(from agent in GameObject.FindObjectsOfType<BaseFPSAgentController>() select agent.gameObject))
+                ) {
+                    Debug.Log("On spawning object the area was not clear despite CheckSpawnArea saying it was.");
+                    prefab.SetActive(false);
+                    return null;
+                }
+            }
             prefab.transform.SetParent(topObject.transform);
             simObj = prefab.GetComponent<SimObjPhysics>();
             spawnCount++;

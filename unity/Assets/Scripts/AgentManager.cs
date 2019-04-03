@@ -143,10 +143,6 @@ public class AgentManager : MonoBehaviour
 
 	private void addAgent(ServerAction action) {
 		Vector3 clonePosition = new Vector3(action.x, action.y, action.z);
-		
-		GameObject visCapsule = primaryAgent.transform.Find ("VisibilityCapsule").gameObject;
-		visCapsule.SetActive(true);
-
 		BaseFPSAgentController clone = UnityEngine.Object.Instantiate (primaryAgent);
 		clone.IsVisible = action.makeAgentsVisible;
 		clone.actionDuration = this.actionDuration;

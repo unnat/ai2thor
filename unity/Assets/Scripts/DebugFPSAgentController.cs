@@ -171,7 +171,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             // Interact action for mouse left-click
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (!TextInputMode && Input.GetKeyDown(KeyCode.Mouse0))
             {
 
                 if (TextInputMode == false)
@@ -248,7 +248,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                      0.0f;
             }
 
-            if (Input.GetKeyDown(KeyCode.R))
+            if (!TextInputMode && Input.GetKeyDown(KeyCode.R))
             {
                 var action = new ServerAction
                 {

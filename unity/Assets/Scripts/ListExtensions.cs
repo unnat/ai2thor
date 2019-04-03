@@ -28,7 +28,10 @@ using System.Linq;
 
 public static class ListExtensions
 {
-    public static void Shuffle<T>(this IList<T> list) {  
+	public static IList<T> Shuffle<T>(this IList<T> list) {  
+		return list.ShallowCopy().Shuffle_();
+	}
+    public static IList<T> Shuffle_<T>(this IList<T> list) {  
 		int n = list.Count;
 		while (n > 1) {  
 			n--;  
@@ -37,6 +40,7 @@ public static class ListExtensions
 			list[k] = list[n];  
 			list[n] = value;  
 		}  
+		return list;
 	}
 
 	public static IList<T> ShallowCopy<T>(this IList<T> listToCopy)
