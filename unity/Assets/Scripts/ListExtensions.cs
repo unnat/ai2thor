@@ -31,6 +31,7 @@ public static class ListExtensions
 	public static IList<T> Shuffle<T>(this IList<T> list) {  
 		return list.ShallowCopy().Shuffle_();
 	}
+	
     public static IList<T> Shuffle_<T>(this IList<T> list) {  
 		int n = list.Count;
 		while (n > 1) {  
