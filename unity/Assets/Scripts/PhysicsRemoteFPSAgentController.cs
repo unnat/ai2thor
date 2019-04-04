@@ -1006,6 +1006,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        public void ChangeAgentColor(ServerAction action) {
+            foreach (MeshRenderer r in this.gameObject.GetComponentsInChildren<MeshRenderer> () as MeshRenderer[]) {
+                foreach (Material m in r.materials) {
+                    m.color = new Color(action.x, action.y, action.z, 1.0f);
+                }
+            }
+            actionFinished(true);
+        }
+
         protected float distanceToObject(SimObjPhysics sop) {
             float dist = 10000.0f;
             foreach (Collider c in sop.GetComponentsInChildren<Collider>()) {
